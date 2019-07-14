@@ -1,92 +1,34 @@
 const playerShapeBasic = function(parent) {
+  translate(parent.x, parent.y);
+  rotate(parent.dir);
+
   stroke(1);
   fill(parent.color[0]);
-  triangle(
-    parent.x + cos(parent.dir) * -20 - sin(parent.dir) * 20,
-    parent.y + sin(parent.dir) * -20 + cos(parent.dir) * 20,
-    parent.x + cos(parent.dir) * 20 - sin(parent.dir) * 20,
-    parent.y + sin(parent.dir) * 20 + cos(parent.dir) * 20,
-    parent.x + cos(parent.dir) * 0 - sin(parent.dir) * -40,
-    parent.y + sin(parent.dir) * 0 + cos(parent.dir) * -40
-  );
-  ellipse(
-    parent.x,
-    parent.y,
-    cos(parent.dir) * 18 - sin(parent.dir) * 24,
-    sin(parent.dir) * 18 + cos(parent.dir) * 24
-  );
-  console.log("Hello,World!");
-  quad(
-    parent.x + cos(parent.dir) * -15 - sin(parent.dir) * 15,
-    parent.y + sin(parent.dir) * -15 + cos(parent.dir) * 15,
-    parent.x + cos(parent.dir) * -10 - sin(parent.dir) * 10,
-    parent.y + sin(parent.dir) * -10 + cos(parent.dir) * 10,
-    parent.x + cos(parent.dir) * -5 - sin(parent.dir) * 15,
-    parent.y + sin(parent.dir) * -5 + cos(parent.dir) * 15,
-    parent.x + cos(parent.dir) * -10 - sin(parent.dir) * 30,
-    parent.y + sin(parent.dir) * -10 + cos(parent.dir) * 30
-  );
-  quad(
-    parent.x + cos(parent.dir) * 15 - sin(parent.dir) * 15,
-    parent.y + sin(parent.dir) * 15 + cos(parent.dir) * 15,
-    parent.x + cos(parent.dir) * 10 - sin(parent.dir) * 10,
-    parent.y + sin(parent.dir) * 10 + cos(parent.dir) * 10,
-    parent.x + cos(parent.dir) * 5 - sin(parent.dir) * 15,
-    parent.y + sin(parent.dir) * 5 + cos(parent.dir) * 15,
-    parent.x + cos(parent.dir) * 10 - sin(parent.dir) * 30,
-    parent.y + sin(parent.dir) * 10 + cos(parent.dir) * 30
-  );
+  triangle(-20, 20, 20, 20, 0, -40);
+  ellipse(0, 0, 18, 24);
+  quad(-15, 15, -10, 10, -5, 15, -10, 30);
+  quad(15, 15, 10, 10, 5, 15, 10, 30);
+
+  rotate(-parent.dir);
+  translate(-parent.x, -parent.y);
 };
 const playerShapeHero = function(parent) {
+  translate(parent.x, parent.y);
+  rotate(parent.dir);
   stroke(1);
   fill(parent.color[1]);
-  // console.log(subColor);
-  quad(
-    parent.x + cos(parent.dir) * -15 - sin(parent.dir) * 15,
-    parent.y + sin(parent.dir) * -15 + cos(parent.dir) * 15,
-    parent.x + cos(parent.dir) * -10 - sin(parent.dir) * 20,
-    parent.y + sin(parent.dir) * -10 + cos(parent.dir) * 20,
-    parent.x + cos(parent.dir) * -15 - sin(parent.dir) * 35,
-    parent.y + sin(parent.dir) * -15 + cos(parent.dir) * 35,
-    parent.x + cos(parent.dir) * -25 - sin(parent.dir) * 25,
-    parent.y + sin(parent.dir) * -25 + cos(parent.dir) * 25
-  );
-  quad(
-    parent.x + cos(parent.dir) * 15 - sin(parent.dir) * 15,
-    parent.y + sin(parent.dir) * 15 + cos(parent.dir) * 15,
-    parent.x + cos(parent.dir) * 25 - sin(parent.dir) * 25,
-    parent.y + sin(parent.dir) * 25 + cos(parent.dir) * 25,
-    parent.x + cos(parent.dir) * 15 - sin(parent.dir) * 35,
-    parent.y + sin(parent.dir) * 15 + cos(parent.dir) * 35,
-    parent.x + cos(parent.dir) * 10 - sin(parent.dir) * 20,
-    parent.y + sin(parent.dir) * 10 + cos(parent.dir) * 20
-  );
+  quad(-15, 15, -10, 20, -15, 35, -25, 25);
+  quad(15, 15, 25, 25, 15, 35, 10, 20);
   fill(parent.color[0]);
-  quad(
-    parent.x + cos(parent.dir) * 0 - sin(parent.dir) * -40,
-    parent.y + sin(parent.dir) * 0 + cos(parent.dir) * -40,
-    parent.x + cos(parent.dir) * 20 - sin(parent.dir) * 5,
-    parent.y + sin(parent.dir) * 20 + cos(parent.dir) * 5,
-    parent.x + cos(parent.dir) * 0 - sin(parent.dir) * 25,
-    parent.y + sin(parent.dir) * 0 + cos(parent.dir) * 25,
-    parent.x + cos(parent.dir) * -20 - sin(parent.dir) * 5,
-    parent.y + sin(parent.dir) * -20 + cos(parent.dir) * 5
-  );
-  quad(
-    parent.x + cos(parent.dir) * 0 - sin(parent.dir) * -20,
-    parent.y + sin(parent.dir) * 0 + cos(parent.dir) * -20,
-    parent.x + cos(parent.dir) * 10 - sin(parent.dir) * 0,
-    parent.y + sin(parent.dir) * 10 + cos(parent.dir) * 0,
-    parent.x + cos(parent.dir) * 0 - sin(parent.dir) * 35,
-    parent.y + sin(parent.dir) * 0 + cos(parent.dir) * 35,
-    parent.x + cos(parent.dir) * -10 - sin(parent.dir) * 0,
-    parent.y + sin(parent.dir) * -10 + cos(parent.dir) * 0
-  );
+  quad(0, -40, 20, 5, 0, 25, -20, 5);
+  quad(0, -20, 10, 0, 0, 35, -10, 0);
+  rotate(-parent.dir);
+  translate(-parent.x, -parent.y);
 };
 const bulletShapeBasic = function(x, y, dir, color) {
   noStroke();
   fill(color);
-  ellipse(x, y, 4, 4, dir);
+  ellipse(x, y, 4, 4);
 };
 const shotTwinMachineGun = function(parent) {
   parent.bullets.push(
