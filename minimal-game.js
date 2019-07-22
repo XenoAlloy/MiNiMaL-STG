@@ -1,5 +1,5 @@
 const playerShapeBasic = function(parent) {
-  translate(parent.x, parent.y);
+  translate(parent.pos.x, parent.pos.y);
   rotate(parent.dir);
 
   stroke(100);
@@ -10,10 +10,10 @@ const playerShapeBasic = function(parent) {
   quad(-15, -15, -10, -10, -15, -5, -30, -10);
 
   rotate(-parent.dir);
-  translate(-parent.x, -parent.y);
+  translate(-parent.pos.x, -parent.pos.y);
 };
 const playerShapeHero = function(parent) {
-  translate(parent.x, parent.y);
+  translate(parent.pos.x, parent.pos.y);
   rotate(parent.dir);
 
   stroke(100);
@@ -25,7 +25,7 @@ const playerShapeHero = function(parent) {
   quad(20, 0, 0, -10, -35, 0, 0, 10);
 
   rotate(-parent.dir);
-  translate(-parent.x, -parent.y);
+  translate(-parent.pos.x, -parent.pos.y);
 };
 const bulletShapeBasic = function(x, y, dir, color) {
   noStroke();
@@ -35,8 +35,8 @@ const bulletShapeBasic = function(x, y, dir, color) {
 const shotTwinMachineGun = function(parent) {
   parent.bullets.push(
     new Bullet(
-      parent.x + cos(parent.dir) * 24 - sin(parent.dir) * 10,
-      parent.y + sin(parent.dir) * 24 + cos(parent.dir) * 10,
+      parent.pos.x + cos(parent.dir) * 24 - sin(parent.dir) * 10,
+      parent.pos.y + sin(parent.dir) * 24 + cos(parent.dir) * 10,
       parent.dir - PI / 4,
       10,
       10,
@@ -46,8 +46,8 @@ const shotTwinMachineGun = function(parent) {
   );
   parent.bullets.push(
     new Bullet(
-      parent.x + cos(parent.dir) * 24 - sin(parent.dir) * -10,
-      parent.y + sin(parent.dir) * 24 + cos(parent.dir) * -10,
+      parent.pos.x + cos(parent.dir) * 24 - sin(parent.dir) * -10,
+      parent.pos.y + sin(parent.dir) * 24 + cos(parent.dir) * -10,
       parent.dir - PI / 4,
       10,
       10,
@@ -58,14 +58,12 @@ const shotTwinMachineGun = function(parent) {
 };
 class Player {
   constructor(
-    x = 0,
-    y = 0,
+    position = { x: 0, y: 0 },
     shape = playerShapeHero,
     bullet = shotTwinMachineGun,
     color = ["rgb(255, 255, 255)", "rgb(0, 0, 255)"]
   ) {
-    this.x = x;
-    this.y = y;
+    this.pos = position;
     this.dir = 0;
     this.drawShape = shape;
     this.shotBullet = bullet;
@@ -77,27 +75,27 @@ class Player {
     // console.log(this.color[0]);
     // console.log(this.color[1]);
     noFill();
-    rect(this.x - 40, this.y - 40, 80, 80);
+    rect(this.pos.x - 40, this.pos.y - 40, 80, 80);
   }
   update() {
-    this.dir = getDir(this.x, this.y, mouseX, mouseY);
+    this.dir = getDir(this.pos, { x: mouseX, y: mouseY });
     this.move();
   }
   move() {
     if (keyIsDown(65)) {
-      this.x -= 5;
+      this.pos.x -= 5;
     }
 
     if (keyIsDown(68)) {
-      this.x += 5;
+      this.pos.x += 5;
     }
 
     if (keyIsDown(87)) {
-      this.y -= 5;
+      this.pos.y -= 5;
     }
 
     if (keyIsDown(83)) {
-      this.y += 5;
+      this.pos.y += 5;
     }
   }
   shot() {
@@ -153,15 +151,16 @@ class Enemy {
   ) {}
 }
 var typeformat = [playerShapeHero, 255, 255];
-function getDir(x1, y1, x2, y2) {
-  return -atan2((x1 - x2) / 2, (y1 - y2) / 2);
-  return atan2(y2 - y1, x2 - x1);
+function getDir(pos1 = { x: 0, y: 0 }, pos2 = { x: 0, y: 0 }) {
+  return atan2(pos2.y - pos1.y, pos2.x - pos1.x);
 }
 
-var player = new Player(100, 500, playerShapeBasic, shotTwinMachineGun, [
-  "rgb(255, 255, 255)",
-  "rgb(0, 100, 200)"
-]);
+var player = new Player(
+  { x: 100, y: 500 },
+  playerShapeBasic,
+  shotTwinMachineGun,
+  ["rgb(255, 255, 255)", "rgb(0, 100, 200)"]
+);
 function setup() {
   //キャンパスサイズの指定
   let canvas = createCanvas(800, 600);
