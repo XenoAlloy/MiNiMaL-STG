@@ -2,12 +2,12 @@ const playerShapeBasic = function(parent) {
   translate(parent.x, parent.y);
   rotate(parent.dir);
 
-  stroke(1);
+  stroke(100);
   fill(parent.color[0]);
-  triangle(-20, 20, 20, 20, 0, -40);
-  ellipse(0, 0, 18, 24);
-  quad(-15, 15, -10, 10, -5, 15, -10, 30);
-  quad(15, 15, 10, 10, 5, 15, 10, 30);
+  triangle(-20, 20, -20, -20, 40, 0);
+  ellipse(0, 0, 24, 18);
+  quad(-15, 15, -10, 10, -15, 5, -30, 10);
+  quad(-15, -15, -10, -10, -15, -5, -30, -10);
 
   rotate(-parent.dir);
   translate(-parent.x, -parent.y);
@@ -15,13 +15,15 @@ const playerShapeBasic = function(parent) {
 const playerShapeHero = function(parent) {
   translate(parent.x, parent.y);
   rotate(parent.dir);
-  stroke(1);
+
+  stroke(100);
   fill(parent.color[1]);
-  quad(-15, 15, -10, 20, -15, 35, -25, 25);
-  quad(15, 15, 25, 25, 15, 35, 10, 20);
+  quad(-15, 15, -25, 25, -35, 15, -20, 10);
+  quad(-15, -15, -25, -25, -35, -15, -20, -10);
   fill(parent.color[0]);
-  quad(0, -40, 20, 5, 0, 25, -20, 5);
-  quad(0, -20, 10, 0, 0, 35, -10, 0);
+  quad(40, 0, -5, -20, -25, 0, -5, 20);
+  quad(20, 0, 0, -10, -35, 0, 0, 10);
+
   rotate(-parent.dir);
   translate(-parent.x, -parent.y);
 };
@@ -33,9 +35,9 @@ const bulletShapeBasic = function(x, y, dir, color) {
 const shotTwinMachineGun = function(parent) {
   parent.bullets.push(
     new Bullet(
-      parent.x + cos(parent.dir) * 10 - sin(parent.dir) * -24,
-      parent.y + sin(parent.dir) * 10 + cos(parent.dir) * -24,
-      parent.dir - (3 * PI) / 4,
+      parent.x + cos(parent.dir) * 24 - sin(parent.dir) * 10,
+      parent.y + sin(parent.dir) * 24 + cos(parent.dir) * 10,
+      parent.dir - PI / 4,
       10,
       10,
       bulletShapeBasic,
@@ -44,9 +46,9 @@ const shotTwinMachineGun = function(parent) {
   );
   parent.bullets.push(
     new Bullet(
-      parent.x + cos(parent.dir) * -10 - sin(parent.dir) * -24,
-      parent.y + sin(parent.dir) * -10 + cos(parent.dir) * -24,
-      parent.dir - (3 * PI) / 4,
+      parent.x + cos(parent.dir) * 24 - sin(parent.dir) * -10,
+      parent.y + sin(parent.dir) * 24 + cos(parent.dir) * -10,
+      parent.dir - PI / 4,
       10,
       10,
       bulletShapeBasic,
@@ -153,6 +155,7 @@ class Enemy {
 var typeformat = [playerShapeHero, 255, 255];
 function getDir(x1, y1, x2, y2) {
   return -atan2((x1 - x2) / 2, (y1 - y2) / 2);
+  return atan2(y2 - y1, x2 - x1);
 }
 
 var player = new Player(100, 500, playerShapeBasic, shotTwinMachineGun, [
